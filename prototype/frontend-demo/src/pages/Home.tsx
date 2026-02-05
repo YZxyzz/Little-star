@@ -5,138 +5,119 @@ interface HomeProps {
 }
 
 export default function Home({ onNavigateToReport }: HomeProps) {
-    const [isRecording, setIsRecording] = useState(false);
-
     return (
-        <div className="px-5 pt-4 pb-20">
-            {/* 1. Header */}
-            <header className="flex justify-between items-center mb-6">
-                <button className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full shadow-soft active:scale-95 transition-all">
-                    <div className="w-8 h-8 rounded-full bg-star overflow-hidden flex items-center justify-center text-sm border-2 border-white shadow-sm">
+        <div className="px-5 pt-4 pb-32">
+            {/* 1. Header (Floating) */}
+            <header className="flex justify-between items-center mb-4 sticky top-0 z-30 py-2 transition-all">
+                <button className="flex items-center gap-2 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full shadow-sm active:scale-95 transition-all">
+                    <div className="w-8 h-8 rounded-full bg-star overflow-hidden flex items-center justify-center text-sm border-2 border-white">
                         👶
                     </div>
                     <span className="font-bold text-ink">小明 ▼</span>
                 </button>
 
-                <div className="flex items-center gap-3">
-                    {/* Device Status Pill */}
-                    <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full text-xs font-bold text-subtext shadow-sm border border-black/5">
-                        <span className="w-2 h-2 rounded-full bg-soft-green animate-pulse"></span>
-                        <span>80%</span>
-                    </div>
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-subtext shadow-sm border border-black/5">
+                    <span className="w-2 h-2 rounded-full bg-soft-green animate-pulse"></span>
+                    <span>设备在线</span>
                 </div>
             </header>
 
-            {/* 2. Hero Card (Soft 3D) */}
-            <div className="card-soft p-6 mb-8 relative overflow-visible group hover:-translate-y-2 transition-transform duration-500 ease-out">
-                {/* Background Decoration */}
-                <div className="absolute -top-10 -right-10 w-40 h-40 bg-star/20 rounded-full blur-3xl opacity-60"></div>
+            {/* 2. Hero Section (Unboxed - 直接浮在背景上) */}
+            <div className="relative flex flex-col items-center text-center py-6 mb-2">
+                {/* 3D Mascot - Large & Center */}
+                <div className="w-48 h-48 mb-4 flex items-center justify-center animate-float drop-shadow-2xl filter brightness-110">
+                    {/* Placeholder for 3D Render - Using large Emoji for now but styled differently */}
+                    <span className="text-[140px] leading-none filter drop-shadow-lg transform rotate-3 hover:rotate-6 transition-transform cursor-pointer"
+                        style={{ textShadow: '0 20px 30px rgba(255, 200, 0, 0.3)' }}>
+                        ⭐
+                    </span>
+                </div>
 
-                <div className="relative z-10 flex flex-col items-center text-center">
-                    {/* Mascot */}
-                    <div className="w-32 h-32 mb-4 text-7xl flex items-center justify-center animate-float cursor-pointer drop-shadow-lg">
-                        ⭐️
+                {/* Report Summary Card (Floating below mascot) */}
+                <div className="card-soft w-full p-5 relative z-10 animate-in slide-in-from-bottom duration-500">
+                    <div className="flex justify-between items-start mb-2">
+                        <h2 className="text-sm font-bold text-subtext">📊 今日报告总览</h2>
+                        <span className="text-xs bg-star/20 text-star-dark px-2 py-0.5 rounded-full font-bold">😊 开心</span>
                     </div>
 
-                    <h1 className="text-xl font-extrabold text-ink mb-2 leading-tight">
-                        今天小明也是<br />充满好奇心的一天！
+                    <h1 className="text-lg font-extrabold text-ink mb-3 text-left leading-relaxed">
+                        "今天小明充满好奇心，问了很多关于恐龙的问题..."
                     </h1>
-                    <p className="text-subtext text-sm mb-6">
-                        和朋友们聊了很多关于恐龙的话题。
-                    </p>
+
+                    <div className="flex flex-wrap gap-2 mb-4">
+                        <span className="tag-pill">#恐龙</span>
+                        <span className="tag-pill">#积木</span>
+                        <span className="tag-pill">#小红</span>
+                    </div>
 
                     <button
                         onClick={onNavigateToReport}
-                        className="btn-primary w-full py-4 text-lg"
+                        className="btn-primary w-full py-3 text-base flex justify-center items-center gap-1"
                     >
-                        查看今日报告
+                        查看完整报告 <span>👉</span>
                     </button>
                 </div>
             </div>
 
-            {/* 3. Timeline Title */}
-            <div className="flex justify-between items-end mb-4 px-2">
-                <h2 className="text-lg font-extrabold text-ink">今日动态</h2>
-                <span className="text-xs font-bold text-sky-blue bg-sky-blue/10 px-2 py-1 rounded-lg">查看全部 &gt;</span>
-            </div>
-
-            {/* 4. Timeline List */}
-            <div className="space-y-4">
-                <TimelineItem
-                    time="14:30"
-                    location="幼儿园"
-                    content="和小红讨论霸王龙的牙齿..."
-                    tags={['#恐龙', '#好奇宝宝']}
-                    icon="🦕"
-                    color="bg-magic-purple/20 text-magic-purple"
-                />
-                <TimelineItem
-                    time="11:15"
-                    location="画室"
-                    content="画画时遇到困难，有点沮丧..."
-                    tags={['#挫折教育']}
-                    icon="🎨"
-                    color="bg-rose-400/20 text-rose-500"
-                />
-            </div>
-
-            {/* 5. FAB (Floating Action Button) */}
-            <button
-                className="fixed bottom-24 right-5 w-16 h-16 bg-sky-blue hover:brightness-110 text-white rounded-2xl flex items-center justify-center text-3xl shadow-[0_6px_0_0_#4DABF7] active:translate-y-2 active:shadow-none transition-all z-40"
-                onClick={() => setIsRecording(!isRecording)}
-            >
-                🎙️
-            </button>
-
-            {/* Basic Recording Overlay */}
-            {isRecording && (
-                <div className="fixed inset-0 bg-ink/20 backdrop-blur-sm z-50 flex items-end justify-center animate-in fade-in duration-200">
-                    <div className="bg-white w-full rounded-t-[2.5rem] p-8 pb-12 animate-in slide-in-from-bottom duration-300 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
-                        <h3 className="text-center font-extrabold text-2xl mb-8 text-ink">正在聆听...</h3>
-                        <div className="flex justify-center gap-6">
-                            <button
-                                onClick={() => setIsRecording(false)}
-                                className="btn-secondary w-32 py-3"
-                            >
-                                取消
-                            </button>
-                            <button
-                                onClick={() => setIsRecording(false)}
-                                className="btn-primary w-32 py-3"
-                            >
-                                完成
-                            </button>
-                        </div>
-                    </div>
+            {/* 3. Interaction Tactics (Suggestion Cards) */}
+            <div className="mb-6">
+                <div className="flex justify-between items-end mb-3 px-2">
+                    <h2 className="text-lg font-extrabold text-ink">💡 互动策略</h2>
+                    <span className="text-xs font-bold text-magic-purple bg-magic-purple/10 px-2 py-1 rounded-lg">2条新建议</span>
                 </div>
-            )}
+
+                <div className="space-y-3">
+                    <TacticCard
+                        title="关于恐龙的兴趣"
+                        content="趁热打铁，问问他最喜欢哪种恐龙，为什么？"
+                        icon="🦕"
+                        color="bg-sky-blue/10 text-sky-blue"
+                    />
+                    <TacticCard
+                        title="关于画画的挫折"
+                        content="先倾听感受，不要急着教他画，可以说'看起来这真的很难'。"
+                        icon="🎨"
+                        color="bg-rose-400/10 text-rose-500"
+                    />
+                </div>
+            </div>
+
+            {/* 4. Today's Picks */}
+            <div className="mb-4">
+                <div className="flex justify-between items-end mb-3 px-2">
+                    <h2 className="text-lg font-extrabold text-ink">🎯 今日精选</h2>
+                    <span className="text-xs font-bold text-subtext">查看全部 &gt;</span>
+                </div>
+                <div className="space-y-3">
+                    <HighlightItem time="14:30" text="霸王龙为什么手那么短？" tag="#好奇" />
+                    <HighlightItem time="11:15" text="画画遇到困难，有点沮丧..." tag="#情绪" />
+                </div>
+            </div>
         </div>
     );
 }
 
-function TimelineItem({ time, location, content, tags, icon, color }: any) {
+function TacticCard({ title, content, icon, color }: any) {
     return (
-        <div className="card-soft p-5 flex gap-4 items-start active:scale-[0.98] transition-transform cursor-pointer hover:shadow-lg">
-            <div className={`w-12 h-12 rounded-2xl ${color} flex items-center justify-center text-2xl shrink-0 shadow-inner`}>
+        <div className="bg-white rounded-3xl p-4 shadow-sm border border-black/5 flex gap-4 active:scale-[0.98] transition-transform cursor-pointer">
+            <div className={`w-12 h-12 rounded-2xl ${color} flex items-center justify-center text-2xl shrink-0`}>
                 {icon}
             </div>
-            <div className="flex-1">
-                <div className="flex justify-between items-center mb-1">
-                    <span className="text-xs font-bold text-subtext flex items-center gap-1 bg-black/5 px-2 py-0.5 rounded-md">
-                        {time} · {location}
-                    </span>
-                </div>
-                <p className="text-ink font-bold text-base mb-3 line-clamp-2 leading-relaxed">
-                    {content}
-                </p>
-                <div className="flex gap-2">
-                    {tags.map((tag: string) => (
-                        <span key={tag} className="px-2 py-1 bg-cream border border-black/5 text-subtext text-xs font-bold rounded-lg dash-border">
-                            {tag}
-                        </span>
-                    ))}
-                </div>
+            <div>
+                <h3 className="font-bold text-ink mb-1">{title}</h3>
+                <p className="text-xs text-subtext leading-relaxed line-clamp-2">{content}</p>
             </div>
         </div>
     );
 }
+
+function HighlightItem({ time, text, tag }: any) {
+    return (
+        <div className="bg-white/50 p-3 rounded-2xl flex items-center gap-3 border border-black/5">
+            <span className="text-xs font-bold text-subtext bg-white px-2 py-1 rounded-lg shadow-sm">{time}</span>
+            <span className="text-sm font-bold text-ink flex-1 line-clamp-1">{text}</span>
+            <span className="text-xs font-bold text-subtext opacity-50">{tag}</span>
+        </div>
+    )
+}
+

@@ -1,60 +1,63 @@
 import { useState } from 'react';
 import Home from './pages/Home';
+import Record from './pages/Record'; // New
+import Mine from './pages/Mine'; // New
 import ReportDetail from './pages/ReportDetail';
 
-type ViewState = 'tab-view' | 'report-detail';
-type TabState = 'home' | 'report' | 'message' | 'mine';
+type ViewState = 'tab-view' | 'report-detail' | 'ai-chat';
+type TabState = 'home' | 'record' | 'mine';
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewState>('tab-view');
   const [activeTab, setActiveTab] = useState<TabState>('home');
 
   const navigateToReport = () => setCurrentView('report-detail');
+  const navigateToChat = () => setCurrentView('ai-chat');
   const backToHome = () => setCurrentView('tab-view');
 
   if (currentView === 'report-detail') {
     return <ReportDetail onBack={backToHome} />;
   }
 
+  // Placeholder for AI Chat View
+  if (currentView === 'ai-chat') {
+    return (
+      <div className="fixed inset-0 bg-cream z-50 flex flex-col">
+        <button onClick={backToHome} className="absolute top-4 left-4 p-2 bg-white rounded-full shadow-sm z-10">⬅️</button>
+        <div className="flex-1 flex items-center justify-center font-bold text-ink">AI Chat Interface (Coming Soon)</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-cream pb-[80px] text-ink selection:bg-star selection:text-ink">
+    <div className="min-h-screen bg-cream pb-[90px] text-ink selection:bg-star selection:text-ink">
       {/* Content Area */}
       <main className="max-w-md mx-auto min-h-screen bg-cream relative">
         {activeTab === 'home' && <Home onNavigateToReport={navigateToReport} />}
-        {activeTab === 'report' && <div className="p-8 text-center text-subtext mt-20">📊 报告历史列表开发中...</div>}
-        {activeTab === 'message' && <div className="p-8 text-center text-subtext mt-20">💬 消息列表开发中...</div>}
-        {activeTab === 'mine' && <div className="p-8 text-center text-subtext mt-20">👤 个人中心开发中...</div>}
+        {activeTab === 'record' && <Record onOpenChat={navigateToChat} />}
+        {activeTab === 'mine' && <Mine />}
       </main>
 
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-[0_-4px_20px_rgba(0,0,0,0.02)] pb-safe pt-2 px-6 z-50 rounded-t-3xl">
-        <div className="max-w-md mx-auto flex justify-between items-center h-[60px]">
-          <TabButton
-            active={activeTab === 'home'}
-            onClick={() => setActiveTab('home')}
-            icon="🏠"
-            label="首页"
-          />
-          <TabButton
-            active={activeTab === 'report'}
-            onClick={() => setActiveTab('report')}
-            icon="📊"
-            label="报告"
-          />
-          <TabButton
-            active={activeTab === 'message'}
-            onClick={() => setActiveTab('message')}
-            icon="💬"
-            label="消息"
-            badge={2}
-          />
-          <TabButton
-            active={activeTab === 'mine'}
-            onClick={() => setActiveTab('mine')}
-            icon="👤"
-            label="我的"
-          />
-        </div>
+      {/* Bottom Navigation (3 Tabs) */}
+      <nav className="fixed bottom-6 left-6 right-6 bg-white/90 backdrop-blur-xl shadow-soft rounded-full py-4 px-8 z-50 flex justify-between items-center border border-white/50">
+        <TabButton
+          active={activeTab === 'home'}
+          onClick={() => setActiveTab('home')}
+          icon="🏠"
+          label="首页"
+        />
+        <TabButton
+          active={activeTab === 'record'}
+          onClick={() => setActiveTab('record')}
+          icon="💬"
+          label="记录"
+        />
+        <TabButton
+          active={activeTab === 'mine'}
+          onClick={() => setActiveTab('mine')}
+          icon="👤"
+          label="我的"
+        />
       </nav>
     </div>
   );
