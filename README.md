@@ -8,7 +8,8 @@
 
 | 日期 | 版本 | 修改内容 | 修改文件 |
 |------|------|---------|---------|
-| **2025-02-05** | **v0.6.0** | **APP架构重构**：导航简化为3 Tab（首页/记录/我的），记录Tab新增AI对话 | `03-information-architecture.md`, `04-wireframes.md` |
+| **2025-02-05** | **v0.7.0** | **用户状态系统**：新增未登录状态、设备绑定完整流程、激活成功动画规格 | 全部APP设计文档 |
+| 2025-02-05 | v0.6.0 | APP架构重构：导航简化为3 Tab（首页/记录/我的），记录Tab新增AI对话 | `03-information-architecture.md`, `04-wireframes.md` |
 | 2025-02-05 | v0.5.1 | 文档同步机制：AGENTS.md新增自动同步规则，UI参考图文件夹 | `AGENTS.md`, `ui-references/` |
 | 2025-02-05 | v0.5.0 | 前端Demo开发：React 19 + Vite + Tailwind，首页UI实现 | `prototype/frontend-demo/` |
 | 2025-02-05 | v0.4.0 | 营销策略体系：品牌定位、GTM策略、小红书运营、众筹方案 | `brand-strategy.md`, `go-to-market.md` 等 |

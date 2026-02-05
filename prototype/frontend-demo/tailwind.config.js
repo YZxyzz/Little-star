@@ -8,35 +8,25 @@ export default {
         extend: {
             colors: {
                 // 核心背景色
-                'cream': '#FFFBF0',
-
-                // 品牌色
-                'star': {
-                    DEFAULT: '#FFC800', // 蛋黄
-                    dark: '#E5B000',    // 阴影色
-                    light: '#FFD700',   // 高光
-                },
-
-                // 辅助色 (马卡龙系)
-                'soft-green': '#88D66C',
-                'magic-purple': '#B497FF',
+                // Moimoi Vibrant Palette
+                'hot-pink': '#FF8FAB',
+                'fresh-green': '#B0E57C',
                 'sky-blue': '#74C0FC',
-
-                // 文本色
-                'ink': '#2C2C2C',
-                'subtext': '#8E8E93',
+                'sunshine-yellow': '#FFD43B',
+                'lilac': '#CCBCFF',
+                'super-black': '#000000',
+                'soft-gray': '#868e96',
             },
             fontFamily: {
-                sans: ['"Nunito"', '"Rounded Mplus 1c"', 'sans-serif'],
+                sans: ['Nunito', 'sans-serif'],
             },
             borderRadius: {
-                '3xl': '1.5rem',
-                '4xl': '2rem',
+                'blob': '40% 60% 70% 30% / 40% 50% 60% 50%',
+                'blob-2': '60% 40% 30% 70% / 60% 30% 70% 40%',
             },
             boxShadow: {
-                'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
-                '3d-star': '0 6px 0 #E5B000',
-                '3d-green': '0 6px 0 #72B859',
+                'pop': '0 10px 20px -5px rgba(0, 0, 0, 0.1)',
+                'glow-pink': '0 0 20px rgba(255, 143, 171, 0.5)',
             }
         },
     },

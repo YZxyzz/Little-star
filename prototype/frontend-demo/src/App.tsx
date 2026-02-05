@@ -1,85 +1,205 @@
 import { useState } from 'react';
 import Home from './pages/Home';
-import Record from './pages/Record'; // New
-import Mine from './pages/Mine'; // New
+import Record from './pages/Record';
+import Mine from './pages/Mine';
 import ReportDetail from './pages/ReportDetail';
+import AIChatWindow from './pages/record/AIChatWindow';
+import TopicDetail from './pages/record/TopicDetail';
+import Splash from './pages/entry/Splash';
+import Welcome from './pages/entry/Welcome';
+import Login from './pages/entry/Login';
+import BindingGuide from './pages/binding/BindingGuide';
+import BindingStep1_ChildInfo from './pages/binding/BindingStep1_ChildInfo';
+import BindingStep2_PrepDevice from './pages/binding/BindingStep2_PrepDevice';
+import BindingStep3_Scan from './pages/binding/BindingStep3_Scan';
+import BindingStep4_Connecting from './pages/binding/BindingStep4_Connecting';
+import BindingStep5_Activation from './pages/binding/BindingStep5_Activation';
+import ActivationSuccess from './pages/binding/ActivationSuccess';
+import MemberCenter from './pages/mine/MemberCenter';
+import DeviceManager from './pages/mine/DeviceManager';
 
-type ViewState = 'tab-view' | 'report-detail' | 'ai-chat';
+import HistoryCalendar from './pages/history/HistoryCalendar';
+import ReportArchive from './pages/history/ReportArchive';
+
+type ViewState = 'splash' | 'welcome' | 'login' | 'binding-guide' | 'binding-step-1' | 'binding-step-2' | 'binding-step-3' | 'binding-step-4' | 'binding-step-5' | 'activation-success' | 'tab-view' | 'report-detail' | 'ai-chat' | 'topic-detail' | 'member-center' | 'device-manager' | 'history-calendar' | 'report-archive';
 type TabState = 'home' | 'record' | 'mine';
 
 function App() {
-  const [currentView, setCurrentView] = useState<ViewState>('tab-view');
+  const [currentView, setCurrentView] = useState<ViewState>('splash');
   const [activeTab, setActiveTab] = useState<TabState>('home');
+
+  // Demo State: Scenario Management
+  const [currentScenarioId, setCurrentScenarioId] = useState('dinos');
 
   const navigateToReport = () => setCurrentView('report-detail');
   const navigateToChat = () => setCurrentView('ai-chat');
+  const navigateToTopic = () => setCurrentView('topic-detail');
+
+  // Mine Navigation
+  const navigateToMember = () => setCurrentView('member-center');
+  const navigateToDevice = () => setCurrentView('device-manager');
+  const navigateToHistory = () => setCurrentView('history-calendar');
+  const navigateToArchive = () => setCurrentView('report-archive');
+
   const backToHome = () => setCurrentView('tab-view');
 
-  if (currentView === 'report-detail') {
-    return <ReportDetail onBack={backToHome} />;
+  // Entry Flow Handlers
+  const handleSplashFinish = () => setCurrentView('welcome');
+  const handleWelcomeFinish = () => setCurrentView('login');
+  const handleLoginSuccess = () => setCurrentView('binding-guide');
+
+  // Binding Flow Handlers
+  const handleBindingGuideNext = () => setCurrentView('binding-step-1');
+  const handleBindingGuideBack = () => setCurrentView('login');
+
+  const handleStep1Next = () => setCurrentView('binding-step-2');
+  const handleStep1Back = () => setCurrentView('binding-guide');
+
+  const handleStep2Next = () => setCurrentView('binding-step-3');
+  const handleStep2Back = () => setCurrentView('binding-step-1');
+
+  const handleStep3Next = () => setCurrentView('binding-step-4');
+  const handleStep3Back = () => setCurrentView('binding-step-2');
+
+  const handleStep4Next = () => setCurrentView('binding-step-5');
+  // Step 4 is auto-forward, no back
+
+  const handleStep5Next = () => setCurrentView('activation-success');
+  const handleStep5Back = () => setCurrentView('binding-step-3'); // Back to scan if needed
+
+  const handleSuccessFinish = () => setCurrentView('tab-view');
+
+  // 1. Splash Screen
+  if (currentView === 'splash') {
+    return <Splash onFinish={handleSplashFinish} />;
   }
 
-  // Placeholder for AI Chat View
+  // 2. Welcome Screen
+  if (currentView === 'welcome') {
+    return <Welcome onStart={handleWelcomeFinish} />
+  }
+
+  // 3. Login Screen
+  if (currentView === 'login') {
+    return <Login onLoginSuccess={handleLoginSuccess} />
+  }
+
+  // 4. Binding Flow
+  if (currentView === 'binding-guide') {
+    return <BindingGuide onNext={handleBindingGuideNext} onBack={handleBindingGuideBack} />
+  }
+
+  if (currentView === 'binding-step-1') {
+    return <BindingStep1_ChildInfo onNext={handleStep1Next} onBack={handleStep1Back} />
+  }
+
+  if (currentView === 'binding-step-2') {
+    return <BindingStep2_PrepDevice onNext={handleStep2Next} onBack={handleStep2Back} />
+  }
+
+  if (currentView === 'binding-step-3') {
+    return <BindingStep3_Scan onNext={handleStep3Next} onBack={handleStep3Back} />
+  }
+
+  if (currentView === 'binding-step-4') {
+    return <BindingStep4_Connecting onNext={handleStep4Next} onBack={() => { }} />
+  }
+
+  if (currentView === 'binding-step-5') {
+    return <BindingStep5_Activation onNext={handleStep5Next} onBack={handleStep5Back} />
+  }
+
+  if (currentView === 'activation-success') {
+    return <ActivationSuccess onFinish={handleSuccessFinish} />
+  }
+
+  if (currentView === 'report-detail') {
+    return <ReportDetail
+      onBack={backToHome}
+      scenarioId={currentScenarioId}
+    />
+  }
+
+  // AI Chat View
   if (currentView === 'ai-chat') {
-    return (
-      <div className="fixed inset-0 bg-cream z-50 flex flex-col">
-        <button onClick={backToHome} className="absolute top-4 left-4 p-2 bg-white rounded-full shadow-sm z-10">⬅️</button>
-        <div className="flex-1 flex items-center justify-center font-bold text-ink">AI Chat Interface (Coming Soon)</div>
-      </div>
-    );
+    return <AIChatWindow onBack={backToHome} />
+  }
+
+  // Topic Detail View
+  if (currentView === 'topic-detail') {
+    return <TopicDetail onBack={backToHome} />
+  }
+
+  // Mine Sub-pages
+  if (currentView === 'member-center') {
+    return <MemberCenter onBack={backToHome} />
+  }
+
+  if (currentView === 'device-manager') {
+    return <DeviceManager onBack={backToHome} />
+  }
+
+  if (currentView === 'history-calendar') {
+    return <HistoryCalendar onBack={backToHome} onNavigateToReport={navigateToReport} />
+  }
+
+  if (currentView === 'report-archive') {
+    return <ReportArchive onBack={backToHome} />
   }
 
   return (
-    <div className="min-h-screen bg-cream pb-[90px] text-ink selection:bg-star selection:text-ink">
+    <div className="min-h-screen bg-white text-super-black selection:bg-hot-pink selection:text-white font-sans">
       {/* Content Area */}
-      <main className="max-w-md mx-auto min-h-screen bg-cream relative">
-        {activeTab === 'home' && <Home onNavigateToReport={navigateToReport} />}
-        {activeTab === 'record' && <Record onOpenChat={navigateToChat} />}
-        {activeTab === 'mine' && <Mine />}
+      <main className="pb-[100px]">
+        {activeTab === 'home' && (
+          <Home
+            onNavigateToReport={navigateToReport}
+            onNavigateToHistory={navigateToHistory}
+            onNavigateToArchive={navigateToArchive}
+            currentScenarioId={currentScenarioId}
+            onScenarioChange={setCurrentScenarioId}
+          />
+        )}
+        {activeTab === 'record' && <Record onOpenChat={navigateToChat} onNavigateToTopic={navigateToTopic} />}
+        {activeTab === 'mine' && <Mine onNavigateToMember={navigateToMember} onNavigateToDevice={navigateToDevice} />}
       </main>
 
-      {/* Bottom Navigation (3 Tabs) */}
-      <nav className="fixed bottom-6 left-6 right-6 bg-white/90 backdrop-blur-xl shadow-soft rounded-full py-4 px-8 z-50 flex justify-between items-center border border-white/50">
+      {/* Bottom Navigation (Moimoi Emoji Style) */}
+      <nav className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-white shadow-pop rounded-full py-2 px-3 z-50 flex items-center gap-1 border border-black/5">
         <TabButton
           active={activeTab === 'home'}
           onClick={() => setActiveTab('home')}
           icon="🏠"
-          label="首页"
+          label="Home"
         />
         <TabButton
           active={activeTab === 'record'}
           onClick={() => setActiveTab('record')}
           icon="💬"
-          label="记录"
+          label="Record"
         />
         <TabButton
           active={activeTab === 'mine'}
           onClick={() => setActiveTab('mine')}
           icon="👤"
-          label="我的"
+          label="Mine"
         />
       </nav>
     </div>
   );
 }
 
-function TabButton({ active, onClick, icon, label, badge }: { active: boolean, onClick: () => void, icon: string, label: string, badge?: number }) {
+function TabButton({ active, onClick, icon, label }: { active: boolean, onClick: () => void, icon: string, label: string }) {
   return (
     <button
       onClick={onClick}
-      className={`flex flex-col items-center justify-center w-16 transition-all duration-300 ${active ? 'scale-110 -translate-y-1' : 'opacity-50 hover:opacity-100'}`}
+      className={`relative w-16 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${active ? 'bg-black text-white w-24' : 'bg-transparent text-soft-gray hover:bg-gray-100'
+        }`}
     >
-      <div className={`text-2xl mb-1 relative ${active ? 'filter drop-shadow-md' : ''}`}>
-        {icon}
-        {badge && (
-          <span className="absolute -top-1 -right-2 bg-rose-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full border-2 border-white">
-            {badge}
-          </span>
-        )}
-      </div>
-      <span className={`text-xs font-bold ${active ? 'text-ink' : 'text-subtext'}`}>
-        {label}
-      </span>
+      <span className={`text-xl z-10 transition-transform ${active ? 'scale-100' : 'scale-90'}`}>{icon}</span>
+      {active && (
+        <span className="ml-2 text-xs font-bold animate-in fade-in slide-in-from-left-2 duration-300">{label}</span>
+      )}
     </button>
   );
 }

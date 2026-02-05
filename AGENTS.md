@@ -27,7 +27,7 @@
 | 2025-02-05 | MVP = 硬件+软件完整方案 | 只做APP无法验证核心价值 | mvp-specification.md |
 | 2025-02-05 | 硬件采用蜂窝流量卡，非WiFi | 用户不需要配置WiFi，设备独立联网 | hardware-specification.md |
 | 2025-02-05 | 只做React Native APP，不做微信小程序 | 小程序推送受限、入口太深 | mvp-specification.md, app-ux-design.md |
-| 2025-02-05 | 流量订阅：首年免费，第二年39.9元/年 | 降低使用门槛 | pricing-strategy.md |
+| 2025-02-05 | **会员定价**：月度¥29.9（原价¥39.9），年度¥299（专属年报） | 年费引导+专属权益 | pricing-strategy.md |
 | 2025-02-05 | 续费率目标50%+（及格线），60%（目标） | 原10%太低，调高预期 | mvp-specification.md |
 | 2025-02-05 | 众筹三档：399/499/599，无家庭装 | 一个家庭一台够用 | pricing-strategy.md |
 | 2025-02-05 | 产品只有语音功能，无视觉 | 硬件限制 | character-ip-design.md |
@@ -35,8 +35,12 @@
 | 2025-02-05 | 前端Demo用React+Vite+Tailwind | 快速验证UI，Antigravity辅助开发 | prototype/frontend-demo/ |
 | 2025-02-05 | 硬件外观主选variant-02参考图 | 米白色星星，柔和配色，极简表情 | assets/star-mascot-variant-02.jpg |
 | 2025-02-05 | UI风格待重新确定 | 原Duolingo风格不满意，新增参考图 | docs/07-app-design/assets/ui-references/ |
-| 2025-02-05 | **APP导航简化为3 Tab** | 首页+记录+我的，极简设计 | 03-information-architecture.md, 04-wireframes.md |
+| 2025-02-05 | APP导航简化为3 Tab | 首页+记录+我的，极简设计 | 03-information-architecture.md, 04-wireframes.md |
 | 2025-02-05 | 记录Tab包含AI对话 | "最了解孩子的AI"，父母可直接对话 | 04-wireframes.md |
+| 2025-02-05 | **用户状态系统** | 4种状态：未登录→已登录未绑定→激活成功→正常使用 | 全部APP设计文档 |
+| 2025-02-05 | **设备绑定流程5步** | 创建档案→准备设备→扫描配对→连接中→激活流量 | 03-information-architecture.md, 04-wireframes.md |
+| 2025-02-05 | **激活成功动画** | 4秒炫酷动画：星星绽放→光环扩散→成功标识→祝福语 | 04-wireframes.md, app-ux-design.md |
+| 2025-02-05 | **价格信息隐藏策略** | 绑定流程不展示价格，只在"我的→会员中心"显示 | 04-wireframes.md, 03-information-architecture.md |
 
 ---
 
@@ -174,8 +178,10 @@ prototype/
 ### 商业约定
 
 - **硬件定价**：¥699（众筹优惠到¥399-599）
-- **订阅定价**：¥298/年（首年免费）
-- **流量订阅**：¥39.9/年（首年免费）
+- **首年体验**：购买硬件即含首年服务（免费）
+- **续费方案**：
+  - 月度会员：¥29.9/月（原价¥39.9，自动续费）
+  - 年度会员：¥299/年（推荐，专属年报+成长档案）
 - **续费率目标**：60%（及格线50%）
 
 ---
@@ -185,11 +191,11 @@ prototype/
 **日期**：2025-02-05
 
 **更新内容**：
-- ⭐ **新增自动文档同步规则**（第四节）：AI完成任务后直接同步，不再询问
-- ⭐ 新增UI风格参考图文件夹：`docs/07-app-design/assets/ui-references/`
-- 新增前端Demo（React 19 + Vite + Tailwind），Antigravity开发
-- 硬件参考图优先级调整：variant-02为主选
-- UI风格待重新确定（原Duolingo风格不满意）
+- ⭐ **用户状态系统**：定义4种状态（未登录、已登录未绑定、激活成功、正常使用）
+- ⭐ **设备绑定完整流程**：5步向导（创建档案→准备设备→扫描配对→连接中→激活流量）
+- ⭐ **激活成功动画规格**：4秒炫酷动画（星星绽放→光环扩散→成功标识→祝福语）
+- 更新文档：03-information-architecture.md、04-wireframes.md、02-user-journey.md、01-app-features.md、app-ux-design.md
+- 所有APP设计文档同步更新
 
 ---
 

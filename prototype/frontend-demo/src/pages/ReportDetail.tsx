@@ -1,86 +1,88 @@
 import { useState } from 'react';
+import { ChevronLeft, Share2, ChevronDown, Clock, Lightbulb } from 'lucide-react';
+import { SCENARIOS } from '../data/scenarios';
 
-export default function ReportDetail({ onBack }: { onBack: () => void }) {
+export default function ReportDetail({ onBack, scenarioId }: { onBack: () => void, scenarioId: string }) {
+    const scenario = SCENARIOS.find(s => s.id === scenarioId) || SCENARIOS[0];
+
     return (
-        <div className="min-h-screen bg-polar-page">
+        <div className="min-h-screen bg-white text-super-black">
             {/* Navbar */}
-            <div className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-geese-white px-4 h-[50px] flex items-center justify-between z-40">
-                <button onClick={onBack} className="text-2xl w-8 h-8 flex items-center justify-center rounded-full active:bg-gray-100">
-                    🔙
+            <div className="sticky top-0 bg-white/90 backdrop-blur-md px-6 py-4 flex items-center justify-between z-40">
+                <button
+                    onClick={onBack}
+                    className="w-10 h-10 rounded-full bg-soft-gray/5 flex items-center justify-center hover:bg-soft-gray/10 transition-colors"
+                >
+                    <ChevronLeft size={24} />
                 </button>
-                <span className="font-bold text-ink-black">2月5日 星期三</span>
-                <button className="text-2xl w-8 h-8 flex items-center justify-center rounded-full active:bg-gray-100">
-                    📤
+                <span className="text-lg font-black text-super-black">今日报告</span>
+                <button className="w-10 h-10 rounded-full bg-soft-gray/5 flex items-center justify-center hover:bg-soft-gray/10 transition-colors">
+                    <Share2 size={20} />
                 </button>
             </div>
 
-            <div className="p-5 pb-20 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                {/* 1. Summary Module */}
-                <section>
-                    <div className="flex gap-2 mb-2">
-                        <span className="px-2 py-1 bg-white border border-geese-white rounded-lg text-xs font-bold text-wolf-grey">🌤️ 晴天</span>
-                        <span className="px-2 py-1 bg-white border border-geese-white rounded-lg text-xs font-bold text-wolf-grey">⏱️ 记录 45分钟</span>
+            <div className="px-6 pb-32 animate-in fade-in slide-in-from-bottom-8 duration-500">
+                {/* 1. Summary Module (Dynamic) */}
+                <section className="mb-8 relative">
+                    {/* Decor */}
+                    <div className={`absolute -top-10 -right-10 w-40 h-40 rounded-full blur-2xl pointer-events-none
+                        ${scenario.mood === 'happy' ? 'bg-sunshine-yellow/20' :
+                            scenario.mood === 'sad' ? 'bg-ocean-blue/20' :
+                                scenario.mood === 'anxious' ? 'bg-hot-pink/20' : 'bg-fresh-green/20'}`}></div>
+
+                    <div className="flex gap-2 mb-3 relative z-10">
+                        <Tag label={`🌤️ ${scenario.moodText}`} />
+                        <Tag label="⏱️ 记录 45分钟" />
                     </div>
-                    <div className="bg-white p-5 rounded-px border-l-4 border-l-star-yellow rounded-r-2xl shadow-sm">
-                        <h2 className="font-bold text-lg mb-2">📝 今日总结</h2>
-                        <p className="text-ink-black leading-relaxed">
-                            小明今天在幼儿园过得很充实。他对<strong>恐龙</strong>表现出了浓厚的兴趣，特别是霸王龙。午睡时稍微有点抗拒，但在老师引导下还是睡着了。
+
+                    <div className="bg-soft-gray/5 p-6 rounded-[2rem] relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-sunshine-yellow"></div>
+                        <h2 className="font-black text-xl mb-3 flex items-center gap-2">
+                            <span>📝</span> 观察日记 (Observer)
+                        </h2>
+                        <p className="text-super-black leading-relaxed text-lg">
+                            {scenario.innerWorld.observation}
                         </p>
+                        <div className="mt-4 pt-4 border-t border-black/5">
+                            <h4 className="flex items-center gap-2 text-xs font-black text-soft-gray uppercase tracking-wider mb-2">
+                                <Lightbulb size={14} className="text-sunshine-yellow" />
+                                深度解读 (Inner World)
+                            </h4>
+                            <p className="text-super-black font-bold opacity-80">
+                                {scenario.innerWorld.psychologicalAnalysis}
+                            </p>
+                        </div>
                     </div>
                 </section>
 
-                {/* 2. Mood Chart Module */}
-                <section className="card-bouncy p-5">
-                    <h2 className="font-bold text-lg mb-4">😊 情绪波动</h2>
-                    <div className="h-32 flex items-end justify-between px-2 relative">
-                        {/* Simple visual representation of a chart for demo */}
-                        {/* Line */}
-                        <div className="absolute top-1/2 left-4 right-4 h-1 bg-geese-white rounded-full -z-10"></div>
-
-                        {/* Points */}
-                        <div className="flex flex-col items-center gap-2">
-                            <div className="text-2xl mb-4 relative top-2">🙂</div>
-                            <div className="w-4 h-4 rounded-full bg-star-yellow border-2 border-white shadow-sm z-10"></div>
-                            <span className="text-xs font-bold text-wolf-grey">08:00</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-2">
-                            <div className="text-2xl mt-8">😐</div>
-                            <div className="w-4 h-4 rounded-full bg-wolf-grey border-2 border-white shadow-sm z-10"></div>
-                            <span className="text-xs font-bold text-wolf-grey">12:30</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-2">
-                            <div className="text-2xl mb-8">🤩</div>
-                            <div className="w-4 h-4 rounded-full bg-star-yellow border-2 border-white shadow-sm z-10"></div>
-                            <span className="text-xs font-bold text-wolf-grey">16:00</span>
-                        </div>
-                    </div>
-                    <div className="mt-4 p-3 bg-polar-page rounded-xl text-sm text-wolf-grey">
-                        整体评价：<strong>性格开朗</strong>，下午情绪达到高潮。
-                    </div>
+                {/* 2. Insight Tags */}
+                <section className="mb-8 flex gap-2 flex-wrap">
+                    {scenario.tags.map(tag => (
+                        <span key={tag} className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">#{tag}</span>
+                    ))}
                 </section>
 
-                {/* 3. Interactive Advice Module */}
+                {/* 3. Interactive Advice Module (Coach - Dynamic) */}
                 <section>
-                    <div className="flex items-center gap-2 mb-4">
-                        <span className="text-xl">💡</span>
-                        <h2 className="font-bold text-lg text-ink-black">互动建议</h2>
-                        <span className="text-xs bg-magic-purple/10 text-magic-purple px-2 py-0.5 rounded-full font-bold">2条新建议</span>
+                    <div className="flex justify-between items-end mb-5">
+                        <div className="flex items-center gap-2">
+                            <span className="text-2xl">💡</span>
+                            <h2 className="font-black text-xl">互动锦囊 (Coach)</h2>
+                        </div>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                         <AdviceCard
-                            title="关于恐龙的兴趣"
-                            quote='"霸王龙为什么手那么短？"'
-                            time="14:30"
-                            advice="这是培养科学探索精神的好机会。不要直接给答案，而是引导他去观察和思考。"
-                            color="border-l-magic-purple"
-                        />
-                        <AdviceCard
-                            title="午睡时的抗拒"
-                            quote='"我不想睡觉，我想玩..."'
-                            time="12:15"
-                            advice="孩子可能还没玩够。建议睡前约定好起床后的活动，给他一个期待。"
-                            color="border-l-rose-red"
+                            title="今日建议"
+                            category="核心策略"
+                            time="Now"
+                            quote={scenario.name}
+                            whyItMatters={scenario.innerWorld.psychologicalAnalysis}
+                            strategy="基于上述分析的互动建议。"
+                            scriptQ={scenario.coachAdvice.empathyOpener}
+                            scriptA={scenario.coachAdvice.script}
+                            color="bg-fresh-green"
+                            icon="🧩"
                         />
                     </div>
                 </section>
@@ -89,51 +91,91 @@ export default function ReportDetail({ onBack }: { onBack: () => void }) {
     );
 }
 
-function AdviceCard({ title, quote, time, advice, color }: any) {
-    const [expanded, setExpanded] = useState(false);
+function Tag({ label }: { label: string }) {
+    return (
+        <span className="px-3 py-1 rounded-full border border-black/5 text-xs font-bold text-soft-gray bg-white">
+            {label}
+        </span>
+    );
+}
+
+function AdviceCard({ title, category, time, quote, whyItMatters, scriptQ, scriptA, color }: any) {
+    const [expanded, setExpanded] = useState(true); // Default open for highlight
 
     return (
-        <div className={`bg-white rounded-2xl shadow-solid border-2 border-geese-white overflow-hidden transition-all ${expanded ? 'ring-2 ring-star-yellow ring-offset-2' : ''}`}>
+        <div className={`rounded-[2rem] overflow-hidden shadow-sm border-2 transition-all duration-300 ${expanded ? 'border-super-black bg-white ring-4 ring-black/5' : 'border-transparent bg-soft-gray/5'}`}>
+            {/* Header / Trigger */}
             <div
-                className={`p-4 cursor-pointer flex justify-between items-start border-l-4 ${color}`}
+                className="p-5 cursor-pointer relative"
                 onClick={() => setExpanded(!expanded)}
             >
-                <div>
-                    <h3 className="font-bold text-ink-black mb-1">{title}</h3>
-                    <p className="text-xs font-bold text-wolf-grey bg-polar-page inline-block px-2 py-1 rounded-md">
-                        🕒 {time} 捕捉到的声音
-                    </p>
-                    <p className="text-ink-black/80 text-sm mt-3 italic font-medium bg-geese-white/30 p-2 rounded-lg border-l-2 border-wolf-grey/30">
+                <div className="flex justify-between items-start mb-3">
+                    <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-lg text-white ${color.replace('bg-', 'bg-opacity-100 bg-')}`}>
+                        {category}
+                    </span>
+                    <span className="text-xs font-bold text-soft-gray flex items-center gap-1">
+                        <Clock size={12} /> {time}
+                    </span>
+                </div>
+
+                <h3 className="text-xl font-black text-super-black mb-3">{title}</h3>
+
+                <div className="bg-white p-4 rounded-2xl border border-black/5 relative">
+                    <div className="absolute -left-1 top-4 w-1 h-8 bg-super-black rounded-r-full"></div>
+                    <p className="text-super-black font-bold italic opacity-90">
                         {quote}
                     </p>
                 </div>
-                <div className={`w-8 h-8 rounded-full bg-geese-white/50 flex items-center justify-center transition-transform ${expanded ? 'rotate-180' : ''}`}>
-                    ▼
+
+                <div className="flex justify-center mt-3">
+                    <ChevronDown size={20} className={`text-soft-gray transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
                 </div>
             </div>
 
-            {/* Expanded Content */}
+            {/* Expanded Deep Content */}
             {expanded && (
-                <div className="px-4 pb-4 animate-in slide-in-from-top-2 duration-200">
-                    <div className="h-px w-full bg-geese-white mb-4"></div>
+                <div className="px-5 pb-6 animate-in slide-in-from-top-4 duration-300">
+                    <div className="h-px w-full bg-black/5 mb-6"></div>
 
-                    <h4 className="text-xs font-bold text-wolf-grey uppercase tracking-wider mb-2">给爸妈的建议</h4>
-                    <p className="text-sm text-ink-black mb-4 leading-relaxed">
-                        {advice}
-                    </p>
+                    {/* Section 1: Why it matters */}
+                    <div className="mb-6">
+                        <h4 className="flex items-center gap-2 text-xs font-black text-soft-gray uppercase tracking-wider mb-2">
+                            <Lightbulb size={14} className="text-sunshine-yellow" />
+                            家长须知
+                        </h4>
+                        <p className="text-sm text-super-black font-bold leading-relaxed opacity-80">
+                            {whyItMatters}
+                        </p>
+                    </div>
 
-                    <h4 className="text-xs font-bold text-magic-purple uppercase tracking-wider mb-3">💬 试着这样聊</h4>
-                    <div className="space-y-3">
-                        <div className="flex justify-end">
-                            <div className="bg-star-yellow text-ink-black text-sm px-4 py-2 rounded-2xl rounded-tr-sm max-w-[85%] font-medium">
-                                哇，你也发现霸王龙手很短啦？🦖
+                    {/* Section 2: Actionable Script */}
+                    <div className={`${color} bg-opacity-10 p-5 rounded-[1.5rem]`}>
+                        <h4 className="text-xs font-black text-super-black uppercase tracking-wider mb-4 opacity-50">
+                            试着这样聊 💬
+                        </h4>
+
+                        <div className="space-y-4">
+                            <div className="flex gap-3">
+                                <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-xs shrink-0">
+                                    爸妈
+                                </div>
+                                <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm font-bold text-super-black">
+                                    {scriptQ}
+                                </div>
+                            </div>
+                            <div className="flex gap-3 flex-row-reverse">
+                                <div className="w-8 h-8 rounded-full bg-white border border-black/10 flex items-center justify-center text-xs shrink-0">
+                                    娃
+                                </div>
+                                <div className="bg-black/5 p-3 rounded-2xl rounded-tr-none text-sm font-bold text-super-black/70">
+                                    {scriptA}
+                                </div>
                             </div>
                         </div>
-                        <div className="flex justify-start">
-                            <div className="bg-white border-2 border-geese-white border-dashed text-wolf-grey text-sm px-4 py-2 rounded-2xl rounded-tl-sm max-w-[85%] cursor-copy hover:border-magic-purple hover:text-magic-purple transition-colors">
-                                你觉得如果不抓猎物，它的手还能干什么呢？(点击使用)
-                            </div>
-                        </div>
+
+                        <button className="w-full mt-4 bg-white border border-black/5 py-3 rounded-xl text-xs font-black text-super-black hover:bg-white/80 transition-colors active:scale-[0.98]">
+                            复制这段对话话术
+                        </button>
                     </div>
                 </div>
             )}
