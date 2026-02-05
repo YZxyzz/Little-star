@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+  }
+}
+
+@layer components {
+
+  /* 
+    Juicy Button (Soft 3D) 
+    Warm-Tech 风格：去除黑色描边，使用同色系深色做阴影
+  */
+  .btn-juicy {
+    @apply relative transition-all duration-150 active:translate-y-1 active:shadow-none select-none;
+  }
+
+  .btn-primary {
+    @apply btn-juicy bg-star text-ink font-extrabold shadow-3d-star hover:brightness-105 active:translate-y-[6px];
+  }
+
+  .btn-secondary {
+    @apply btn-juicy bg-white text-ink font-bold shadow-[0_4px_0_#E5E5E5] border-2 border-transparent active:border-transparent;
+  }
+
+  /* 
+    Soft Card
+    浮在奶油背景上的卡片
+  */
+  .card-soft {
+    @apply bg-white rounded-3xl shadow-soft border-none;
+  }
+
+  /* 
+    Mascot Animation
+    呼吸感动画
+  */
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+
+    100% {
+      transform: translateY(0px);
+    }
+  }
+}
