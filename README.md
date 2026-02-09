@@ -8,6 +8,10 @@
 
 | 日期 | 版本 | 修改内容 | 修改文件 |
 |------|------|---------|---------|
+| **2025-02-09** | **v1.2.0** | **Friend.com 竞品深度调研**：官网设计语言、交互策略、定价对标、对小星伴的启示 | [`friend-com-analysis.md`](docs/08-website/friend-com-analysis.md) |
+| **2025-02-09** | **v1.1.0** | **硬件外观参考集**：29 张竞品/概念参考图 + 设计价值分级，确定「Pebble 鹅卵石」方向 | [`hardware-appearance-references.md`](docs/03-hardware-design/hardware-appearance-references.md) |
+| **2025-02-09** | **v1.0.0** | **产品定义 v2.1**：Pebble 双模架构 Single Source of Truth（工业设计 + 硬件规格 + 需求合一） | [`product-definition.md`](docs/02-product-spec/product-definition.md) |
+| 2025-02-09 | v0.10.0 | APP Demo：实时对话流、精彩卡片展开、ReportDetail Moimoi 重构、Memory Map 数据模型 | `Home.tsx`, `ReportDetail.tsx`, `scenarios.ts` |
 | **2025-02-05** | **v0.9.0** | **日报模板v3.0**：基于技术可行性重新设计，只呈现"孩子说了什么"，不假装知道孩子行程 | `daily-report-template.md` |
 | 2025-02-05 | v0.8.0 | 开发路线图：4阶段策略（APP→后端→硬件集成→正式硬件），软件先行、日报价值验证后再投入硬件 | `development-roadmap.md` |
 | 2025-02-05 | v0.7.0 | 用户状态系统：新增未登录状态、设备绑定完整流程、激活成功动画规格 | 全部APP设计文档 |
@@ -47,15 +51,15 @@
 │   │   ├── competitive-analysis.md # 竞品分析
 │   │   ├── user-research-framework.md # 用户调研框架
 │   │   └── market-size-analysis.md # 市场规模分析
-│   ├── 02-product-spec/            # 产品规格
+│   ├── 02-product-spec/            # 产品规格 ⭐ 最近更新
+│   │   ├── product-definition.md   # ⭐ 产品定义 v2.1 (Single Source of Truth)
 │   │   ├── mvp-specification.md    # MVP规格说明
-│   │   ├── development-roadmap.md  # 📍 开发路线图（新增）
+│   │   ├── development-roadmap.md  # 📍 开发路线图
 │   │   └── api-specification.md    # API接口规格
 │   ├── 03-hardware-design/         # 硬件设计 ⭐ 最近更新
-│   │   ├── hardware-specification.md # 硬件规格（毛绒玩具设计）
+│   │   ├── hardware-appearance-references.md # ⭐ 硬件外观参考集（29 张 + 价值分级）
 │   │   ├── character-ip-design.md  # 角色IP设计
 │   │   ├── ai-audio-hardware-guide.md # 📚 行业入门指南
-│   │   ├── hardware-appearance-references.md # 🖼️ 硬件外观参考（新增）
 │   │   └── assets/                 # 🖼️ 设计参考图
 │   │       ├── star-mascot-variant-02.jpg         # ⭐ 主选参考图（米白星星）
 │   │       ├── star-mascot-variant-01.jpg         # 备选参考图（黄色星星）
@@ -72,14 +76,16 @@
 │   │   ├── go-to-market.md         # GTM策略
 │   │   ├── content-marketing.md    # 小红书运营策略
 │   │   └── crowdfunding-marketing.md # 众筹营销策略
-│   └── 07-app-design/              # APP设计 ⭐ 完整
-│       ├── 01-app-features.md      # 功能清单
-│       ├── 02-user-journey.md      # 用户旅程
-│       ├── 03-information-architecture.md  # 信息架构
-│       ├── 04-wireframes.md        # 线框图与内容规格
-│       ├── daily-report-template.md # 📊 日报模板v2.0（新增）
-│       ├── 05-ui-design-system.md  # UI设计系统
-│       └── assets/ui-references/   # 🖼️ UI风格参考图 ⭐ 新增
+│   ├── 07-app-design/              # APP设计 ⭐ 完整
+│   │   ├── 01-app-features.md      # 功能清单
+│   │   ├── 02-user-journey.md      # 用户旅程
+│   │   ├── 03-information-architecture.md  # 信息架构
+│   │   ├── 04-wireframes.md        # 线框图与内容规格
+│   │   ├── daily-report-template.md # 📊 日报模板v4.0
+│   │   ├── 05-ui-design-system.md  # UI设计系统（Moimoi v3.0）
+│   │   └── assets/ui-references/   # 🖼️ UI风格参考图
+│   └── 08-website/                 # 官网设计 ⭐ 新增
+│       └── friend-com-analysis.md  # ⭐ Friend.com 竞品深度调研
 ├── prototype/                      # 📁 原型代码
 │   ├── ai-service/                 # Python后端服务
 │   │   ├── main.py                 # FastAPI应用入口
@@ -151,10 +157,11 @@ python main.py
 | [user-research-framework.md](docs/01-market-research/user-research-framework.md) | 用户调研框架 | 用户画像、需求、痛点 |
 | [market-size-analysis.md](docs/01-market-research/market-size-analysis.md) | 市场规模分析 | TAM、SAM、SOM、市场规模 |
 
-### 📱 02-产品规格
+### 📱 02-产品规格 ⭐ 最近更新
 
 | 文件 | 描述 | 关键词 |
 |------|------|--------|
+| [product-definition.md](docs/02-product-spec/product-definition.md) | ⭐ **产品定义 v2.1 (Single Source of Truth)** | Pebble 双模架构、工业设计、硬件规格、需求合一 |
 | [mvp-specification.md](docs/02-product-spec/mvp-specification.md) | MVP产品规格 | 功能定义、技术架构、开发里程碑、数据库 |
 | [development-roadmap.md](docs/02-product-spec/development-roadmap.md) | 📍 **开发路线图** | 4阶段开发、软件先行、MVP验证、硬件后置 |
 | [api-specification.md](docs/02-product-spec/api-specification.md) | API接口规格 | REST API、接口、错误码 |
@@ -163,7 +170,7 @@ python main.py
 
 | 文件 | 描述 | 关键词 |
 |------|------|--------|
-| [hardware-specification.md](docs/03-hardware-design/hardware-specification.md) | 硬件规格说明 | **毛绒玩具**、ESP32、麦克风、佩戴方式、振动、充电、模块化 |
+| [hardware-appearance-references.md](docs/03-hardware-design/hardware-appearance-references.md) | ⭐ **硬件外观参考集 (29 张图 + 价值分级)** | Pebble 鹅卵石、竞品外观、配色材质、佩戴方式 |
 | [character-ip-design.md](docs/03-hardware-design/character-ip-design.md) | 角色IP设计 | 星星、角色、配色、品牌、表情 |
 | [ai-audio-hardware-guide.md](docs/03-hardware-design/ai-audio-hardware-guide.md) | 📚 **行业入门指南** | PLAUD/钉钉拆解、硬件术语、开发板、MVP方案、成本阶梯 |
 
@@ -209,6 +216,12 @@ python main.py
 | [daily-report-template.md](docs/07-app-design/daily-report-template.md) | 📊 **日报模板v2.0** | 时间线、深度洞察、重点关注、行动指南 |
 | [05-ui-design-system.md](docs/07-app-design/05-ui-design-system.md) | UI设计系统 | 色彩、字体、组件 |
 | [assets/ui-references/](docs/07-app-design/assets/ui-references/) | UI风格参考图 🆕 | 暖橙色、多彩、绿色角色IP风格 |
+
+### 🌐 08-官网设计 ⭐ 新增
+
+| 文件 | 描述 | 关键词 |
+|------|------|--------|
+| [friend-com-analysis.md](docs/08-website/friend-com-analysis.md) | ⭐ **Friend.com 竞品深度调研** | 官网设计语言、3D 交互、定价策略、Calm Tech 营销、对小星伴启示 |
 
 ### 💻 原型代码
 
