@@ -8,6 +8,7 @@
 
 | 日期 | 版本 | 修改内容 | 修改文件 |
 |------|------|---------|---------|
+| **2025-02-09** | **v1.3.0** | **竞品快速参考手册**：国内 15 款 + 国际 10 款 + 间接竞品，含官网链接、定价、定位速览 | [`competitor-quick-reference.md`](docs/01-market-research/competitor-quick-reference.md) |
 | **2025-02-09** | **v1.2.0** | **Friend.com 竞品深度调研**：官网设计语言、交互策略、定价对标、对小星伴的启示 | [`friend-com-analysis.md`](docs/08-website/friend-com-analysis.md) |
 | **2025-02-09** | **v1.1.0** | **硬件外观参考集**：29 张竞品/概念参考图 + 设计价值分级，确定「Pebble 鹅卵石」方向 | [`hardware-appearance-references.md`](docs/03-hardware-design/hardware-appearance-references.md) |
 | **2025-02-09** | **v1.0.0** | **产品定义 v2.1**：Pebble 双模架构 Single Source of Truth（工业设计 + 硬件规格 + 需求合一） | [`product-definition.md`](docs/02-product-spec/product-definition.md) |
@@ -149,11 +150,12 @@ python main.py
 
 > 💡 **快速查找**：使用 `Ctrl+F` / `Cmd+F` 搜索关键词
 
-### 📊 01-市场调研
+### 📊 01-市场调研 ⭐ 最近更新
 
 | 文件 | 描述 | 关键词 |
 |------|------|--------|
-| [competitive-analysis.md](docs/01-market-research/competitive-analysis.md) | 竞品深度分析 | 竞品、PLAUD、飞书录音豆、儿童手表 |
+| [competitor-quick-reference.md](docs/01-market-research/competitor-quick-reference.md) | ⭐ **竞品快速参考手册（国内 15 + 国际 10 + 间接竞品）** | 官网链接、定价、定位、形态、一站式速览 |
+| [competitive-analysis.md](docs/01-market-research/competitive-analysis.md) | 竞品深度分析 | 听力熊、Moxie、BubblePal、功能对比 |
 | [user-research-framework.md](docs/01-market-research/user-research-framework.md) | 用户调研框架 | 用户画像、需求、痛点 |
 | [market-size-analysis.md](docs/01-market-research/market-size-analysis.md) | 市场规模分析 | TAM、SAM、SOM、市场规模 |
 
