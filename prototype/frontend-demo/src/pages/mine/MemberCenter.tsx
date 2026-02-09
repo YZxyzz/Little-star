@@ -37,6 +37,7 @@ export default function MemberCenter({ onBack }: { onBack: () => void }) {
                         period="年"
                         badge="最超值"
                         highlight
+                        description="含全年无限 4G 流量"
                     />
                     <PlanCard
                         title="月度会员"
@@ -47,7 +48,7 @@ export default function MemberCenter({ onBack }: { onBack: () => void }) {
 
                 {/* Benefits */}
                 <div className="bg-white/5 rounded-[2rem] p-6 border border-white/10">
-                    <BenefitItem text="无限次 AI 对话陪伴" />
+                    <BenefitItem text="无限次 AI 对话陪伴 (免流量)" />
                     <BenefitItem text="每日生成深度成长报告" />
                     <BenefitItem text="解锁全部 500+ 互动故事库" />
                     <BenefitItem text="专家级育儿指导建议" />
@@ -70,7 +71,7 @@ export default function MemberCenter({ onBack }: { onBack: () => void }) {
     );
 }
 
-function PlanCard({ title, price, period, badge, highlight }: any) {
+function PlanCard({ title, price, period, badge, highlight, description }: any) {
     return (
         <div className={`relative p-6 rounded-[2rem] border-2 transition-transform hover:scale-105 cursor-pointer flex justify-between items-center
             ${highlight ? 'bg-white/10 border-sunshine-yellow' : 'bg-transparent border-white/10'}`}>
@@ -83,6 +84,7 @@ function PlanCard({ title, price, period, badge, highlight }: any) {
 
             <div>
                 <h3 className="text-lg font-bold mb-1">{title}</h3>
+                {description && <div className="text-xs text-white/80 font-bold mb-1">{description}</div>}
                 {highlight && <div className="text-xs text-sunshine-yellow font-bold">限时 8 折</div>}
             </div>
 

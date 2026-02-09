@@ -1,7 +1,7 @@
 
 import { SCENARIOS } from '../data/scenarios';
 import { QuickAction } from '../components/QuickAction';
-import { Battery, Zap, Clock } from 'lucide-react';
+import { Zap } from 'lucide-react';
 
 interface HomeProps {
     onNavigateToReport: () => void;

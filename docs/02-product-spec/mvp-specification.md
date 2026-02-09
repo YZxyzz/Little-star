@@ -117,22 +117,45 @@
 以便AI能帮我生成报告和建议。
 ```
 
-#### F2: 每日成长报告
+#### F2: 每日成长报告（v4.0 升级）
 
-**功能描述**：AI根据记录生成每日报告
+**功能描述**：AI根据孩子对话生成三层信息报告
 
 | 子功能 | 描述 | 优先级 |
 |--------|------|--------|
-| 今日概要 | 3-5句话总结今天 | P0 |
-| 关键事件 | 标注重要事件 | P0 |
-| 情绪分析 | 今日情绪状态图示 | P1 |
-| 话题提取 | 孩子关注的话题/问题 | P1 |
+| 今日亮点 | 一句话叙事性总结+情感钩子 | P0 |
+| 今日概要 | 30秒快速了解+历史对比数据 | P0 |
+| 今日对话 | 按时间排列的对话记录和情绪 | P0 |
+| 孩子的世界 | 标签页切换：心情/朋友/兴趣/困扰 | P0 |
+| 值得关注 | 需要父母留意的事+场景化AI入口 | P0 |
+| 今晚行动 | 具体怎么做、怎么聊+对话示例 | P0 |
+| 亲子对话建议 | 个性化话题和资源推荐 | P1 |
+| 家长反馈 | 评分+文字反馈+报告局限说明 | P1 |
+| 渐进式披露 | 三级展开：推送/概览/完整报告 | P0 |
 
 **用户故事**：
 ```
 作为家长，
-我想要一眼看到孩子今天的成长概要，
-以便快速了解孩子的一天。
+我想要一眼看到孩子今天的成长概要和趋势变化，
+以便快速了解孩子的一天，并知道今晚该怎么和孩子聊。
+```
+
+#### F2.5: 实时推送通知（v4.0 新增）
+
+**功能描述**：三层信息架构的第一层，即时触达家长
+
+| 子功能 | 描述 | 优先级 |
+|--------|------|--------|
+| 情绪告警 | 检测到孩子哭泣/极度低落时立即推送 | P0 |
+| 孩子金句 | 推送暖心/有趣/有教育意义的话 | P1 |
+| 好奇心爆发 | 同一话题连续提问≥3个时推送 | P1 |
+| 推送频率控制 | 每天最多5条，避免打扰 | P0 |
+
+**用户故事**：
+```
+作为家长，
+当孩子情绪异常或说了暖心的话时，
+我希望立刻收到通知，感受到和孩子的连接。
 ```
 
 #### F3: 育儿建议
@@ -620,16 +643,25 @@ CREATE TABLE records (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
--- 每日报告表
+-- 每日报告表（v4.0 升级）
 CREATE TABLE daily_reports (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     child_id UUID REFERENCES children(id),
     report_date DATE NOT NULL,
+    highlight TEXT,  -- v4.0: 今日亮点叙事
     summary TEXT,
     key_events JSONB,
     mood_analysis JSONB,
+    mood_stability_score INTEGER,  -- v4.0: 本周情绪稳定度评分
     topics VARCHAR(100)[],
     suggestions JSONB,
+    world_data JSONB,  -- v4.0: 孩子的世界（心情/朋友/兴趣/困扰）
+    attention_items JSONB,  -- v4.0: 值得关注
+    action_guide JSONB,  -- v4.0: 今晚行动
+    chat_suggestions JSONB,  -- v4.0: 亲子对话建议
+    personalized_resources JSONB,  -- v4.0: 个性化资源推荐
+    conversation_count INTEGER DEFAULT 0,  -- v4.0: 当日对话次数
+    comparison_data JSONB,  -- v4.0: 历史对比数据
     created_at TIMESTAMP DEFAULT NOW(),
     UNIQUE(child_id, report_date)
 );
@@ -659,6 +691,64 @@ CREATE TABLE family_members (
     created_at TIMESTAMP DEFAULT NOW(),
     UNIQUE(child_id, user_id)
 );
+
+-- 实时推送记录表（v4.0 新增）
+CREATE TABLE realtime_pushes (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    child_id UUID REFERENCES children(id),
+    user_id UUID REFERENCES users(id),
+    push_type VARCHAR(20) NOT NULL,  -- 'emotion_alert', 'golden_quote', 'curiosity_burst'
+    title VARCHAR(100) NOT NULL,
+    content TEXT NOT NULL,
+    child_quote TEXT,  -- 孩子原话
+    mood_tag VARCHAR(20),
+    conversation_time TIMESTAMP,
+    is_read BOOLEAN DEFAULT FALSE,
+    is_favorited BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 成长收藏夹表（v4.0 新增）
+CREATE TABLE growth_favorites (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    child_id UUID REFERENCES children(id),
+    user_id UUID REFERENCES users(id),
+    favorite_type VARCHAR(20) NOT NULL,  -- 'golden_quote', 'event', 'milestone'
+    source_type VARCHAR(20),  -- 'daily_report', 'realtime_push', 'milestone'
+    source_id UUID,  -- 关联的报告/推送/里程碑ID
+    title VARCHAR(200),
+    content TEXT,
+    child_quote TEXT,
+    parent_note TEXT,  -- 家长备注
+    event_date DATE,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 成长里程碑表（v4.0 新增）
+CREATE TABLE growth_milestones (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    child_id UUID REFERENCES children(id),
+    milestone_type VARCHAR(30) NOT NULL,  -- 'cognitive', 'emotional', 'social', 'interest'
+    title VARCHAR(200) NOT NULL,
+    description TEXT,
+    child_quote TEXT,  -- 触发里程碑的孩子原话
+    psychology_insight TEXT,  -- 发展心理学解读
+    parent_suggestion TEXT,  -- 父母可以做什么
+    discovered_at TIMESTAMP DEFAULT NOW(),
+    is_confirmed BOOLEAN DEFAULT FALSE,  -- 家长确认
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 家长反馈表（v4.0 新增）
+CREATE TABLE parent_feedback (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    report_id UUID REFERENCES daily_reports(id),
+    user_id UUID REFERENCES users(id),
+    rating VARCHAR(10) NOT NULL,  -- 'helpful', 'neutral', 'not_helpful'
+    feedback_text TEXT,
+    action_result TEXT,  -- 今晚和孩子聊的结果
+    created_at TIMESTAMP DEFAULT NOW()
+);
 ```
 
 ### 4.2 索引设计
@@ -668,59 +758,101 @@ CREATE TABLE family_members (
 CREATE INDEX idx_records_child_created ON records(child_id, created_at DESC);
 CREATE INDEX idx_daily_reports_child_date ON daily_reports(child_id, report_date DESC);
 CREATE INDEX idx_records_tags ON records USING GIN(tags);
+
+-- v4.0 新增索引
+CREATE INDEX idx_realtime_pushes_child ON realtime_pushes(child_id, created_at DESC);
+CREATE INDEX idx_realtime_pushes_unread ON realtime_pushes(user_id, is_read) WHERE is_read = FALSE;
+CREATE INDEX idx_growth_favorites_child ON growth_favorites(child_id, created_at DESC);
+CREATE INDEX idx_growth_milestones_child ON growth_milestones(child_id, discovered_at DESC);
+CREATE INDEX idx_parent_feedback_report ON parent_feedback(report_id);
 ```
 
 ---
 
 ## 五、AI Prompt设计
 
-### 5.1 每日报告生成Prompt
+### 5.1 每日报告生成Prompt（v4.0）
 
 ```
-你是一位专业的儿童发展顾问，帮助家长了解孩子的日常成长。
+你是一个儿童心理专家和育儿顾问。
 
-## 任务
-根据家长今天记录的内容，生成一份简洁温暖的每日成长报告。
+以下是孩子今天和小星伴的对话记录（包含时间戳和内容）。
+请基于这些对话生成一份每日成长报告。
 
 ## 孩子信息
 - 姓名：{child_name}
 - 年龄：{age}岁
 - 昵称：{nickname}
 
-## 今日记录
-{records}
+## 今日对话记录
+{conversations}
+
+## 历史数据
+{history_stats}
+
+## 重要原则
+- 只基于孩子说的内容来分析，不要假设孩子没说的事情
+- 情绪分析基于每次对话，不要画连续曲线
+- 所有信息都要标注"孩子说"，让父母知道数据来源
+- 引用孩子的原话，让父母"听到"孩子的声音
+- 与昨天和本周平均数据对比，展示趋势
+- 资源推荐必须基于孩子今天的具体对话内容，不要给通用推荐
 
 ## 输出要求
 请以JSON格式输出，包含以下字段：
 
 {
-  "summary": "3-5句话的今日总结，语气温暖亲切",
-  "key_events": [
+  "highlight": "3-4行叙事性总结+一句话提炼",
+  "overview": {
+    "conversation_count": "今日对话次数",
+    "shared_events": "主动分享的事件数",
+    "questions_asked": "提出的问题数",
+    "comparison": {
+      "vs_yesterday": "与昨天的对比",
+      "vs_week_avg": "与本周平均的对比"
+    }
+  },
+  "conversations": [
     {
-      "event": "事件描述",
-      "type": "positive/negative/neutral",
-      "importance": "high/medium/low"
+      "time": "对话时间",
+      "mood": "情绪标签",
+      "quotes": ["孩子的原话"],
+      "summary": "这段对话的摘要"
     }
   ],
-  "mood": {
-    "overall": "happy/calm/sad/anxious/mixed",
-    "description": "简短的情绪分析"
+  "world": {
+    "mood_timeline": "情绪时间线",
+    "people_mentioned": ["提到的人及关系"],
+    "interests": ["感兴趣的话题及热度"],
+    "concerns": ["可能的困扰"]
   },
-  "topics": ["孩子今天关注的话题"],
-  "parent_suggestions": [
+  "attention_items": [
     {
-      "context": "针对什么事件",
-      "suggestion": "建议内容",
-      "sample_dialogue": "可以这样和孩子说..."
+      "title": "关注事项",
+      "quotes": ["相关原话"],
+      "analysis": "分析",
+      "ai_entry_prompt": "推荐的AI咨询入口提示"
     }
-  ]
+  ],
+  "action_guide": {
+    "steps": ["分步骤的行动建议"],
+    "dialogue_examples": ["对话示例"],
+    "dont_do": ["不要这样做"],
+    "do_this": ["建议这样做"]
+  },
+  "chat_suggestions": {
+    "topics": ["推荐话题"],
+    "resources": ["个性化资源推荐（基于今日对话）"],
+    "checklist": ["今晚对话清单"]
+  },
+  "report_meta": {
+    "conversation_count": "基于几次对话",
+    "disclaimer": "报告局限说明"
+  }
 }
 
-## 注意事项
-1. 用温暖、鼓励的语气
-2. 建议要具体可执行
-3. 对话示例要适合跟3-7岁孩子说
-4. 如果有负面事件，给出正向引导建议
+## 语言风格
+温暖、专业、不说教
 ```
 
 ### 5.2 育儿问答Prompt
@@ -743,6 +875,35 @@ CREATE INDEX idx_records_tags ON records USING GIN(tags);
 3. 给出具体可执行的行动建议
 4. 如果涉及心理问题，建议专业咨询
 5. 语气温和、不评判
+```
+
+### 5.3 实时推送触发Prompt（v4.0 新增）
+
+```
+你是一个儿童心理分析专家。
+
+分析以下刚刚发生的孩子对话片段，判断是否需要即时推送通知给家长。
+
+推送类型判断：
+1. 情绪告警：孩子表达了强烈的负面情绪（难过、害怕、愤怒）且持续时间超过2分钟
+2. 孩子金句：孩子说了一句特别暖心、有趣、有教育意义的话
+3. 好奇心爆发：孩子在同一话题连续提问3个以上问题
+
+如果判断需要推送，输出JSON：
+{
+  "should_push": true,
+  "push_type": "emotion_alert|golden_quote|curiosity_burst",
+  "title": "推送标题（10字以内）",
+  "content": "推送内容（引用孩子原话，30字以内）",
+  "mood_tag": "情绪标签",
+  "urgency": "high|medium|low"
+}
+
+如果不需要推送：
+{
+  "should_push": false,
+  "reason": "不需要推送的原因"
+}
 ```
 
 ---

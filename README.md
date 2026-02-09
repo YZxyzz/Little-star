@@ -8,7 +8,9 @@
 
 | 日期 | 版本 | 修改内容 | 修改文件 |
 |------|------|---------|---------|
-| **2025-02-05** | **v0.7.0** | **用户状态系统**：新增未登录状态、设备绑定完整流程、激活成功动画规格 | 全部APP设计文档 |
+| **2025-02-05** | **v0.9.0** | **日报模板v3.0**：基于技术可行性重新设计，只呈现"孩子说了什么"，不假装知道孩子行程 | `daily-report-template.md` |
+| 2025-02-05 | v0.8.0 | 开发路线图：4阶段策略（APP→后端→硬件集成→正式硬件），软件先行、日报价值验证后再投入硬件 | `development-roadmap.md` |
+| 2025-02-05 | v0.7.0 | 用户状态系统：新增未登录状态、设备绑定完整流程、激活成功动画规格 | 全部APP设计文档 |
 | 2025-02-05 | v0.6.0 | APP架构重构：导航简化为3 Tab（首页/记录/我的），记录Tab新增AI对话 | `03-information-architecture.md`, `04-wireframes.md` |
 | 2025-02-05 | v0.5.1 | 文档同步机制：AGENTS.md新增自动同步规则，UI参考图文件夹 | `AGENTS.md`, `ui-references/` |
 | 2025-02-05 | v0.5.0 | 前端Demo开发：React 19 + Vite + Tailwind，首页UI实现 | `prototype/frontend-demo/` |
@@ -47,10 +49,12 @@
 │   │   └── market-size-analysis.md # 市场规模分析
 │   ├── 02-product-spec/            # 产品规格
 │   │   ├── mvp-specification.md    # MVP规格说明
+│   │   ├── development-roadmap.md  # 📍 开发路线图（新增）
 │   │   └── api-specification.md    # API接口规格
 │   ├── 03-hardware-design/         # 硬件设计 ⭐ 最近更新
 │   │   ├── hardware-specification.md # 硬件规格（毛绒玩具设计）
 │   │   ├── character-ip-design.md  # 角色IP设计
+│   │   ├── ai-audio-hardware-guide.md # 📚 行业入门指南（新增）
 │   │   └── assets/                 # 🖼️ 设计参考图
 │   │       ├── star-mascot-variant-02.jpg         # ⭐ 主选参考图（米白星星）
 │   │       ├── star-mascot-variant-01.jpg         # 备选参考图（黄色星星）
@@ -71,6 +75,7 @@
 │       ├── 02-user-journey.md      # 用户旅程
 │       ├── 03-information-architecture.md  # 信息架构
 │       ├── 04-wireframes.md        # 线框图与内容规格
+│       ├── daily-report-template.md # 📊 日报模板v2.0（新增）
 │       ├── 05-ui-design-system.md  # UI设计系统
 │       └── assets/ui-references/   # 🖼️ UI风格参考图 ⭐ 新增
 ├── prototype/                      # 📁 原型代码
@@ -149,6 +154,7 @@ python main.py
 | 文件 | 描述 | 关键词 |
 |------|------|--------|
 | [mvp-specification.md](docs/02-product-spec/mvp-specification.md) | MVP产品规格 | 功能定义、技术架构、开发里程碑、数据库 |
+| [development-roadmap.md](docs/02-product-spec/development-roadmap.md) | 📍 **开发路线图** | 4阶段开发、软件先行、MVP验证、硬件后置 |
 | [api-specification.md](docs/02-product-spec/api-specification.md) | API接口规格 | REST API、接口、错误码 |
 
 ### 🔧 03-硬件设计 ⭐ 最近更新
@@ -157,6 +163,7 @@ python main.py
 |------|------|--------|
 | [hardware-specification.md](docs/03-hardware-design/hardware-specification.md) | 硬件规格说明 | **毛绒玩具**、ESP32、麦克风、佩戴方式、振动、充电、模块化 |
 | [character-ip-design.md](docs/03-hardware-design/character-ip-design.md) | 角色IP设计 | 星星、角色、配色、品牌、表情 |
+| [ai-audio-hardware-guide.md](docs/03-hardware-design/ai-audio-hardware-guide.md) | 📚 **行业入门指南** | PLAUD/钉钉拆解、硬件术语、开发板、MVP方案、成本阶梯 |
 
 **🖼️ 设计参考图**
 
@@ -197,6 +204,7 @@ python main.py
 | [02-user-journey.md](docs/07-app-design/02-user-journey.md) | 用户旅程 | 流程、体验 |
 | [03-information-architecture.md](docs/07-app-design/03-information-architecture.md) | 信息架构 | 导航、站点地图 |
 | [04-wireframes.md](docs/07-app-design/04-wireframes.md) | 线框图与内容规格 | 页面布局、文案 |
+| [daily-report-template.md](docs/07-app-design/daily-report-template.md) | 📊 **日报模板v2.0** | 时间线、深度洞察、重点关注、行动指南 |
 | [05-ui-design-system.md](docs/07-app-design/05-ui-design-system.md) | UI设计系统 | 色彩、字体、组件 |
 | [assets/ui-references/](docs/07-app-design/assets/ui-references/) | UI风格参考图 🆕 | 暖橙色、多彩、绿色角色IP风格 |
 
