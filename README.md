@@ -54,11 +54,13 @@
 │   ├── 03-hardware-design/         # 硬件设计 ⭐ 最近更新
 │   │   ├── hardware-specification.md # 硬件规格（毛绒玩具设计）
 │   │   ├── character-ip-design.md  # 角色IP设计
-│   │   ├── ai-audio-hardware-guide.md # 📚 行业入门指南（新增）
+│   │   ├── ai-audio-hardware-guide.md # 📚 行业入门指南
+│   │   ├── hardware-appearance-references.md # 🖼️ 硬件外观参考（新增）
 │   │   └── assets/                 # 🖼️ 设计参考图
 │   │       ├── star-mascot-variant-02.jpg         # ⭐ 主选参考图（米白星星）
 │   │       ├── star-mascot-variant-01.jpg         # 备选参考图（黄色星星）
-│   │       └── star-mascot-PRIMARY-reference.jpg  # 云朵形态参考
+│   │       ├── star-mascot-PRIMARY-reference.jpg  # 云朵形态参考
+│   │       └── hardware-appearance-references/    # 硬件外观参考图（29张）
 │   ├── 04-privacy-security/        # 隐私安全
 │   │   ├── privacy-framework.md    # 隐私合规框架
 │   │   └── data-security-architecture.md # 数据安全架构

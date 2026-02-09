@@ -1,72 +1,50 @@
+import { useState } from 'react';
+import { MEMORY_MAP, type NewUpdate, type MemoryMapData } from '../data/scenarios';
+import { Search, ChevronRight, MessageCircle, Mic } from 'lucide-react';
+
 interface RecordProps {
     onOpenChat: () => void;
     onNavigateToTopic: () => void;
 }
 
-export default function Record({ onOpenChat, onNavigateToTopic }: RecordProps) {
+export default function Record({ onOpenChat }: RecordProps) {
+    const data = MEMORY_MAP;
+
     return (
-        <div className="min-h-screen bg-white text-super-black px-6 pt-12 pb-32 relative overflow-hidden">
-            {/* Decor Blob */}
-            <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-sky-blue/5 to-transparent pointer-events-none"></div>
+        <div className="min-h-screen bg-white text-super-black pt-12 pb-40 relative overflow-hidden">
+            {/* Soft gradient background */}
+            <div className="absolute top-0 left-0 w-full h-72 bg-gradient-to-b from-lilac/8 via-sky-blue/5 to-transparent pointer-events-none" />
 
-            <div className="relative z-10 flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-black text-super-black tracking-tight">记录</h1>
-                <button className="w-12 h-12 rounded-full bg-soft-gray/5 flex items-center justify-center text-xl hover:bg-soft-gray/10 transition-colors">
-                    🔍
-                </button>
-            </div>
-
-            {/* Topic Cloud (Organic) */}
-            <div className="mb-10">
-                <h3 className="text-sm font-bold text-soft-gray uppercase mb-4 tracking-wider">Hot Topics</h3>
-                <div className="flex flex-wrap gap-3">
-                    <TopicBlob label="#恐龙" count={12} color="bg-hot-pink text-white" onClick={onNavigateToTopic} />
-                    <TopicBlob label="#幼儿园" count={8} color="bg-sunshine-yellow text-super-black" onClick={onNavigateToTopic} />
-                    <TopicBlob label="#积木" count={6} color="bg-fresh-green text-super-black" onClick={onNavigateToTopic} />
-                    <TopicBlob label="#小红" count={5} color="bg-sky-blue text-white" onClick={onNavigateToTopic} />
-                    <TopicBlob label="#画画" count={4} color="bg-lilac text-white" onClick={onNavigateToTopic} />
-                </div>
-            </div>
-
-            {/* Feed */}
-            <div className="relative z-10">
-                <div className="flex justify-between items-end mb-5">
-                    <h3 className="text-2xl font-black text-super-black">对话流</h3>
-                    <span className="text-sm font-bold text-soft-gray">Filter ▼</span>
+            <div className="relative z-10 px-6">
+                {/* Header */}
+                <div className="flex justify-between items-center mb-8">
+                    <h1 className="text-3xl font-black tracking-tight">记录</h1>
+                    <button className="w-11 h-11 rounded-full bg-black/[0.03] flex items-center justify-center hover:bg-black/[0.06] transition-colors">
+                        <Search size={18} className="text-soft-gray" />
+                    </button>
                 </div>
 
-                <div className="space-y-6">
-                    <FeedBlob
-                        time="14:30"
-                        location="幼儿园"
-                        content="霸王龙为什么手那么短？它怎么吃东西呀？"
-                        tags={['#恐龙', '#好奇']}
-                        insight="💡 观察力提升！孩子开始思考生物结构了。"
-                        bg="bg-sky-blue/10"
-                    />
-                    <FeedBlob
-                        time="11:15"
-                        location="画室"
-                        content="我画不好...小红画得比我好..."
-                        tags={['#情绪', '#挫折']}
-                        insight="💡 挫折时刻。需要引导孩子关注过程而非结果。"
-                        bg="bg-hot-pink/10"
-                    />
-                </div>
+                {/* ✨ New Updates Section */}
+                <NewUpdatesSection updates={data.newUpdates} />
+
+                {/* 📁 Memory Map Grid */}
+                <MemoryMapGrid data={data} />
             </div>
 
-            {/* Floating AI Chat Entry (Pop Style) */}
-            <div className="fixed bottom-28 left-6 right-6 z-40">
+            {/* Fixed AI Chat Entry */}
+            <div className="fixed bottom-28 left-5 right-5 z-40">
                 <button
                     onClick={onOpenChat}
-                    className="w-full bg-super-black text-white font-extrabold rounded-full py-5 px-8 shadow-pop flex items-center justify-between active:scale-95 transition-transform group"
+                    className="w-full bg-super-black text-white font-bold rounded-full py-4 px-6 shadow-pop flex items-center justify-between active:scale-[0.98] transition-transform"
                 >
                     <span className="flex items-center gap-3">
-                        <span className="text-2xl group-hover:rotate-12 transition-transform">💬</span>
-                        <span className="text-lg">和小星伴聊聊...</span>
+                        <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                            <MessageCircle size={16} />
+                        </span>
+                        <span className="text-[15px]">和小星伴聊聊...</span>
                     </span>
-                    <span className="bg-white/20 p-2 rounded-full">
-                        🎙️
+                    <span className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center">
+                        <Mic size={14} />
                     </span>
                 </button>
             </div>
@@ -74,38 +52,190 @@ export default function Record({ onOpenChat, onNavigateToTopic }: RecordProps) {
     );
 }
 
-function TopicBlob({ label, count, color, onClick }: any) {
+// ─── New Updates Section ────────────────────────────────────────────────────
+
+function NewUpdatesSection({ updates }: { updates: NewUpdate[] }) {
+    const [showAll, setShowAll] = useState(false);
+    const newUpdates = updates.filter(u => u.isNew);
+    const displayUpdates = showAll ? newUpdates : newUpdates.slice(0, 3);
+
+    if (newUpdates.length === 0) return null;
+
     return (
-        <button onClick={onClick} className={`px-4 py-2 rounded-full text-sm font-extrabold flex items-center gap-2 shadow-sm transform hover:scale-105 transition-transform cursor-pointer ${color}`}>
-            {label}
-            <span className="opacity-60 text-xs">{count}</span>
-        </button>
+        <section className="mb-8">
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-black flex items-center gap-2">
+                    <span>✨</span>
+                    <span>新动态</span>
+                    <span className="text-xs font-bold text-white bg-hot-pink rounded-full px-2 py-0.5">
+                        {newUpdates.length}
+                    </span>
+                </h2>
+                {newUpdates.length > 3 && (
+                    <button
+                        onClick={() => setShowAll(!showAll)}
+                        className="text-xs font-bold text-soft-gray flex items-center gap-0.5 hover:text-super-black transition-colors"
+                    >
+                        {showAll ? '收起' : '全部'}
+                        <ChevronRight size={12} />
+                    </button>
+                )}
+            </div>
+
+            <div className="space-y-3">
+                {displayUpdates.map(update => (
+                    <UpdateCard key={update.id} update={update} />
+                ))}
+            </div>
+        </section>
     );
 }
 
-function FeedBlob({ time, location, content, tags, insight, bg }: any) {
+function UpdateCard({ update }: { update: NewUpdate }) {
+    const levelStyles: Record<NewUpdate['level'], string> = {
+        urgent: 'border-l-hot-pink bg-hot-pink/[0.04]',
+        daily: 'border-l-sky-blue bg-sky-blue/[0.04]',
+        weekly: 'border-l-fresh-green bg-fresh-green/[0.04]',
+        achievement: 'border-l-sunshine-yellow bg-sunshine-yellow/[0.06]',
+    };
+
+    const levelLabels: Record<NewUpdate['level'], { text: string; color: string }> = {
+        urgent: { text: '关注', color: 'text-hot-pink bg-hot-pink/10' },
+        daily: { text: '今日', color: 'text-sky-blue bg-sky-blue/10' },
+        weekly: { text: '趋势', color: 'text-fresh-green bg-fresh-green/10' },
+        achievement: { text: '成就', color: 'text-amber-600 bg-sunshine-yellow/20' },
+    };
+
+    const level = levelLabels[update.level];
+
     return (
-        <div className={`p-6 rounded-[2.5rem] ${bg} hover:shadow-md transition-all cursor-pointer`}>
-            <div className="flex items-center gap-2 mb-3 opacity-60">
-                <div className="w-2 h-2 rounded-full bg-super-black"></div>
-                <span className="text-xs font-bold uppercase tracking-wide">{time} · {location}</span>
-            </div>
-
-            <p className="text-xl font-bold text-super-black leading-relaxed mb-4">
-                "{content}"
-            </p>
-
-            <div className="flex flex-wrap gap-2 mb-4">
-                {tags.map((t: string) => (
-                    <span key={t} className="text-xs font-black bg-white/50 px-3 py-1 rounded-full text-super-black">
-                        {t}
-                    </span>
-                ))}
-            </div>
-
-            <div className="text-sm font-bold text-soft-gray border-t border-black/5 pt-3 mt-2">
-                {insight}
+        <div className={`p-4 rounded-2xl border-l-[3px] ${levelStyles[update.level]} transition-all hover:shadow-sm cursor-pointer active:scale-[0.99]`}>
+            <div className="flex items-start gap-3">
+                <span className="text-xl flex-shrink-0 mt-0.5">{update.emoji}</span>
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                        <span className="font-bold text-sm text-super-black">{update.title}</span>
+                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${level.color}`}>
+                            {level.text}
+                        </span>
+                    </div>
+                    <p className="text-xs text-soft-gray font-medium leading-relaxed">{update.summary}</p>
+                    <span className="text-[10px] text-soft-gray/60 font-medium mt-1 block">{update.timestamp}</span>
+                </div>
+                <ChevronRight size={14} className="text-soft-gray/30 flex-shrink-0 mt-1" />
             </div>
         </div>
+    );
+}
+
+// ─── Memory Map Grid ────────────────────────────────────────────────────────
+
+function MemoryMapGrid({ data }: { data: MemoryMapData }) {
+    const dimensions: {
+        key: keyof MemoryMapData['badges'];
+        emoji: string;
+        label: string;
+        sublabel: string;
+        color: string;
+        bgColor: string;
+    }[] = [
+        {
+            key: 'people',
+            emoji: '👥',
+            label: '人物',
+            sublabel: `${data.people.length} 人`,
+            color: 'text-hot-pink',
+            bgColor: 'bg-hot-pink/[0.06]',
+        },
+        {
+            key: 'emotion',
+            emoji: '💛',
+            label: '情绪',
+            sublabel: `稳定 ${data.emotion.stability.score}/5`,
+            color: 'text-amber-500',
+            bgColor: 'bg-sunshine-yellow/[0.08]',
+        },
+        {
+            key: 'interest',
+            emoji: '🔭',
+            label: '兴趣',
+            sublabel: `${data.interests.length} 项`,
+            color: 'text-sky-blue',
+            bgColor: 'bg-sky-blue/[0.06]',
+        },
+        {
+            key: 'growth',
+            emoji: '🌱',
+            label: '成长',
+            sublabel: `${data.growthTrack.length} 里程碑`,
+            color: 'text-fresh-green',
+            bgColor: 'bg-fresh-green/[0.06]',
+        },
+        {
+            key: 'challenge',
+            emoji: '⚡',
+            label: '挑战',
+            sublabel: `${data.challenges.filter(c => c.currentStatus === 'active').length} 进行中`,
+            color: 'text-orange-500',
+            bgColor: 'bg-orange-500/[0.05]',
+        },
+        {
+            key: 'worldview',
+            emoji: '🌍',
+            label: '世界',
+            sublabel: `${data.worldview.length} 个理论`,
+            color: 'text-lilac',
+            bgColor: 'bg-lilac/[0.08]',
+        },
+    ];
+
+    return (
+        <section className="mb-8">
+            <h2 className="text-lg font-black mb-4 flex items-center gap-2">
+                <span>📁</span>
+                <span>记忆图谱</span>
+            </h2>
+
+            <div className="grid grid-cols-3 gap-3">
+                {dimensions.map(dim => (
+                    <DimensionCard
+                        key={dim.key}
+                        emoji={dim.emoji}
+                        label={dim.label}
+                        sublabel={dim.sublabel}
+                        bgColor={dim.bgColor}
+                        badge={data.badges[dim.key]}
+                    />
+                ))}
+            </div>
+        </section>
+    );
+}
+
+function DimensionCard({
+    emoji,
+    label,
+    sublabel,
+    bgColor,
+    badge,
+}: {
+    emoji: string;
+    label: string;
+    sublabel: string;
+    bgColor: string;
+    badge: number;
+}) {
+    return (
+        <button className={`relative ${bgColor} rounded-2xl p-4 flex flex-col items-center gap-2 transition-all hover:shadow-sm active:scale-[0.97] cursor-pointer`}>
+            {/* Badge */}
+            {badge > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-hot-pink text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-sm">
+                    {badge}
+                </span>
+            )}
+            <span className="text-2xl">{emoji}</span>
+            <span className="text-sm font-bold text-super-black">{label}</span>
+            <span className="text-[10px] text-soft-gray font-medium">{sublabel}</span>
+        </button>
     );
 }
