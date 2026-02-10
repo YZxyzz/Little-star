@@ -29,3 +29,23 @@ When user discusses product design ideas or improvements:
 4. Execute case study or generate research questions
 5. Analyze insights and provide recommendations
 6. Update relevant docs automatically
+
+# Git 协作规则
+
+**Branch Strategy:**
+- `main` - Stable branch (protected, requires PR review)
+- `kevin` - Development branch (active work happens here)
+
+**Conflict Resolution:**
+- Read `collaboration.md` for detailed branching and merge rules
+- **Core rule**: When merging origin/main into kevin, **prefer kevin branch content**
+- Reason: kevin contains latest decisions and experimental features
+- Always document conflicts in `collaboration.md` section "四、历史冲突记录"
+
+**Before Starting Work:**
+1. Check if origin/main has updates: `git fetch origin main`
+2. If updates exist, merge with kevin preference: `git merge origin/main`
+3. If conflicts occur:
+   - Resolve by preferring kevin content (unless main has critical updates)
+   - Document conflict details in `collaboration.md`
+   - Update AGENTS.md if decisions are affected
